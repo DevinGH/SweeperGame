@@ -1,0 +1,90 @@
+import java.util.*;
+
+public class SweeperGame {
+	private char[][] gameBoard;
+	private int treasureX;
+	private int treasureY;
+	private int totalMoves;
+	private boolean found;
+	private int h;
+	private int w;
+	
+	public SweeperGame(int height, int width) {
+		Random rand = new Random();
+		
+		if(height == 0 && width == 0) {
+			
+			throw new IllegalArgumentException();
+			
+		} else {
+			
+			gameBoard = new char[height][width];
+			
+			for(int i = 0; i < height; i++ ) {
+				for(int j = 0; j < width; j++) {
+					gameBoard[i][j] = ' ';
+				}
+			}
+			
+			h = height;
+			w = width;
+			
+			treasureX = rand.nextInt(height);
+			treasureY = rand.nextInt(width);
+			
+			gameBoard[treasureX][treasureY] = 'T';
+			
+			totalMoves = 0;
+			
+			found = false;
+		}
+	}
+	
+	public boolean beenSwept(int x, int y) {
+		
+	}
+	
+	public boolean treasureFound(int x, int y) {
+		if(gameBoard[x][y] == gameBoard[treasureX][treasureY]) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean checkOutOfBounds(int x, int y) {
+		if((x < 0 || x > h) && (y < 0 || y > w)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	public int getBoardHeight() {
+		return h;
+	}
+	
+	public int getBoardWidth() {
+		return w;
+	}
+	
+	public int getTotalMoves() {
+		return totalMoves;
+	}
+	
+	public boolean digSand(int x, int y) {
+		int dx = x - treasureX;
+		int dy = y - treasureY;
+		int distance = Math.abs(dx) + Math.abs(dy);
+		
+		if(gameBoard[x][y] == gameBoard[treasureX][treasureY]) {
+			found = true;
+			return true;
+		} else {
+			gameBoard[x][y] = (char)distance;
+			found = false;
+			totalMoves++;
+			return false;
+		}
+	}
+}
