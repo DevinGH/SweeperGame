@@ -9,7 +9,7 @@ public class SweeperGame {
 	private int h;
 	private int w;
 	
-	public SweeperGame(int height, int width) {
+	public SweeperGame(int height , int width) {
 		Random rand = new Random();
 		
 		if(height == 0 && width == 0) {
@@ -22,17 +22,32 @@ public class SweeperGame {
 			
 			for(int i = 0; i < height; i++ ) {
 				for(int j = 0; j < width; j++) {
-					gameBoard[i][j] = ' ';
+					gameBoard[i][j] = 'Z';
+					System.out.print(gameBoard[i][j]);
 				}
+				System.out.println();
 			}
 			
 			h = height;
+			System.out.println("height " + h);
 			w = width;
+			System.out.println("width " + w);
 			
 			treasureX = rand.nextInt(height);
+			System.out.println(treasureX);
 			treasureY = rand.nextInt(width);
+			System.out.println(treasureY);
 			
 			gameBoard[treasureX][treasureY] = 'T';
+			
+			for(int i = 0; i < height; i++ ) {
+				for(int j = 0; j < width; j++) {
+					System.out.print(gameBoard[i][j]);
+				}
+				System.out.println();
+			}
+			
+			System.out.println(gameBoard.length);
 			
 			totalMoves = 0;
 			
@@ -41,10 +56,25 @@ public class SweeperGame {
 	}
 	
 	public boolean beenSwept(int x, int y) {
+		if(x == gameBoard.length) {
+			x = gameBoard.length - 1;
+		}
 		
+		if(y == gameBoard.length) {
+			y = gameBoard.length - 1;
+		}
+		
+		if(gameBoard[x][y] == 'Z' || gameBoard[x][y] == 'T') {
+			System.out.println("swept no");
+			return false;
+		} else {
+			System.out.println("swept yes");
+			return true;
+		}
 	}
 	
 	public boolean treasureFound(int x, int y) {
+		
 		if(gameBoard[x][y] == gameBoard[treasureX][treasureY]) {
 			return true;
 		}else {
@@ -53,9 +83,13 @@ public class SweeperGame {
 	}
 	
 	public boolean checkOutOfBounds(int x, int y) {
-		if((x < 0 || x > h) && (y < 0 || y > w)) {
+		
+		
+		if((x < 0 || x < h) && (y < 0 || y < w)) {
+			System.out.println("in");
 			return false;
 		} else {
+			System.out.println("out");
 			return true;
 		}
 	}
@@ -73,9 +107,14 @@ public class SweeperGame {
 	}
 	
 	public boolean digSand(int x, int y) {
-		int dx = x - treasureX;
-		int dy = y - treasureY;
+		int dx = (x) - treasureX;
+		System.out.println("dx " + dx);
+		int dy = (y) - treasureY;
+		System.out.println("dy " +dy);
 		int distance = Math.abs(dx) + Math.abs(dy);
+		System.out.println("distance " +distance);
+		System.out.println("tx " +treasureX);
+		System.out.println("ty " +treasureY);
 		
 		if(gameBoard[x][y] == gameBoard[treasureX][treasureY]) {
 			found = true;
@@ -86,5 +125,15 @@ public class SweeperGame {
 			totalMoves++;
 			return false;
 		}
+	}
+	
+	
+	public String toString(){
+		if(!found) {
+			for(int i = 0; i < gameBoard.length; i++) {
+				System.out.println(gameBoard[i]);
+			}
+		}
+		return null;
 	}
 }
