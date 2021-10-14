@@ -31,8 +31,7 @@ public class SimpleSweeper {
                     System.out.print("Enter treasure coordinates separated by a space: ");
                     x = s.nextInt();
                     y = s.nextInt();
-                } while (game.checkOutOfBounds(x, y) || game.beenSwept(x, y));
-                System.out.println("Start dig");
+                } while (!game.checkOutOfBounds(x, y) || game.beenSwept(x, y));
                 done = game.digSand(x, y);
                 System.out.println(game.toString());
                 s.nextLine();
