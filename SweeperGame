@@ -119,7 +119,7 @@ public class SweeperGame {
 			
 		} else {
 			
-			gameBoard[x][y] = (char)distance;
+			gameBoard[x][y] = (char)(distance + '0');
 			found = false;
 			totalMoves++;
 			return false;
