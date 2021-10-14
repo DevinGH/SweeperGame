@@ -1,0 +1,167 @@
+package SweeperGame;
+/*
+ * TCSS 143
+ * Author: Devin Hanson
+ * Instructor: Raghavi Sakpal
+ * Date: 10/14/2021
+ * Game behavior for SweeperGame.SweeperGame.SimpleSweeper driver code
+ */
+
+import java.util.*;
+
+public class SweeperGame {
+	private char[][] gameBoard;
+	private int treasureX;
+	private int treasureY;
+	private int totalMoves;
+	private boolean found;
+	private int h;
+	private int w;
+	private String output;
+	
+	public SweeperGame(int height , int width) {
+		Random rand = new Random();
+		
+		if(height == 0 && width == 0) {
+			
+			throw new IllegalArgumentException();
+			
+		} else {
+			
+			gameBoard = new char[width][height];
+			
+			for(int i = 0; i < width; i++ ) {
+				for(int j = 0; j < height; j++) {
+					
+					gameBoard[i][j] = 'Z';
+					
+				}
+			}
+			
+			h = height;
+			w = width;
+			treasureX = rand.nextInt(width);
+			treasureY = rand.nextInt(height);
+			totalMoves = 1;
+			found = false;
+		}
+	}
+	
+	public boolean beenSwept(int x, int y) {
+		if(x == gameBoard.length) {
+			
+			x = gameBoard.length - 1;
+		}
+		
+		if(y == gameBoard.length) {
+			
+			y = gameBoard.length - 1;
+		}
+		
+		if(gameBoard[x][y] == 'Z' || gameBoard[x][y] == 'T') {
+			
+			return false;
+			
+		} else {
+			
+			return true;
+		}
+	}
+	
+	public boolean treasureFound(int x, int y) {
+		
+		if(x == treasureX && y == treasureY) {
+			
+			return true;
+			
+		}else {
+			
+			return false;
+		}
+	}
+
+	/**
+	 *
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public boolean checkOutOfBounds(int x, int y) {
+		
+		if((x < 0 || x < w) && (y < 0 || y < h)) {
+			
+			return true;
+			
+		} else {
+			
+			return false;
+			
+		}
+	}
+	
+	public int getBoardHeight() {
+		
+		return h;
+	}
+	
+	public int getBoardWidth() {
+		
+		return w;
+	}
+	
+	public int getTotalMoves() {
+		
+		return totalMoves;
+	}
+	
+	public boolean digSand(int x, int y) {
+		int dx = (x) - treasureX;
+		int dy = (y) - treasureY;
+		int distance = Math.abs(dx) + Math.abs(dy);
+		
+		if(x == treasureX && y == treasureY) {
+			
+			found = true;
+			return true;
+			
+		} else {
+			if(distance > 9){
+				char[] temp = Integer.toString(distance).toCharArray();
+				for(int i = 0; i < temp.length; i++){
+					gameBoard[x + i][y] = temp[i];
+				}
+			} else {
+				gameBoard[x][y] = (char)(distance + '0');
+			}
+			found = false;
+			totalMoves++;
+			return false;
+		}
+	}
+	
+	
+	public String toString(){
+		
+		output = "";
+		if(!found) {
+			for(int i = gameBoard.length - 1; i >= 0; i--) {
+				for(int j = 0; j <= gameBoard.length - 1; j++) {
+					output  += gameBoard[j][i];
+				}
+				output += "\n";
+			}
+			
+			return output;
+		} else {
+			gameBoard[treasureX][treasureY] = 'T';
+			for(int i = gameBoard.length - 1; i >= 0; i--) {
+				for(int j = 0; j <= gameBoard.length - 1; j++) {
+					output  += gameBoard[j][i];
+				}
+				output += "\n";
+			}
+			
+			return output;
+		}
+	}
+}
